@@ -23,7 +23,8 @@
          type="password" 
           v-model="ruleForm.password"
           placeholder="密码"
-          prefix-icon="myicon myicon-key"
+          prefix-icon="myicon myicon-key" 
+          @keydown.native.enter="submitForm('ruleForm')"
         ></el-input>
       </el-form-item>
 
@@ -63,9 +64,11 @@ export default {
         if (valid) {
           checkUser(this.ruleForm).then(res=>{
             //如果成功要跳转至首页,将tolen保存到localstore中
+            //将username保存在state中
             if(res.meta.status===200){
               localStorage.setItem("mytoken",res.data.token);
-              this.$router.push({name:'Home'})
+              this.$store.commit('setUsername',res.data.username)
+              this.$router.push({name:'Welcome'})
             }else{
               this.$message.error(`${res.meta.msg}`);
             }

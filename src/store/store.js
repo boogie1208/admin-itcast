@@ -2,15 +2,19 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
 const state={
-  username:''
+  username:'111'
 }
 const mutations={
-  setUsername(){
-    
+  setUsername:(state,username)=>{
+    state.username=username
+     localStorage.setItem('username',username)
   }
 }
 const actions={}
-const getters={}
+const getters={
+  username:(state)=>localStorage.getItem('username')
+  
+}
 export default new Vuex.Store({
   state,
   getters,

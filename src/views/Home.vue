@@ -4,10 +4,11 @@
       <el-aside width="auto">
         <div class="logo"></div>
             <el-menu
-          default-active="2"
+          :unique-opened="true"
           class="el-menu-admin"
           @open="handleOpen"
           @close="handleClose"
+          :router='true'
           :collapse="isCollapse"
           background-color="#545c64"
           text-color="#fff"
@@ -17,9 +18,23 @@
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-              <el-menu-item index="1-4-1">
+              <el-menu-item index="/users">
                 <i class="el-icon-menu"></i>
                 <span slot="title">用户列表</span>
+              </el-menu-item>
+          </el-submenu>
+           <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>权限管理</span>
+            </template>
+              <el-menu-item index="/rights">
+                <i class="el-icon-menu"></i>
+                <span slot="title">权限列表</span>
+              </el-menu-item>
+              <el-menu-item index="/roles">
+                <i class="el-icon-menu"></i>
+                <span slot="title">角色列表</span>
               </el-menu-item>
           </el-submenu>
         </el-menu>
@@ -30,7 +45,7 @@
           <div class="system-title">电商管理系统</div>
           <div>
             <span class="welcome">
-              您好，xxx
+              您好，{{$store.getters.username}}
             </span>
             <el-button type="text" @click="logout">退出</el-button>
           </div>
@@ -46,11 +61,15 @@
 
 
 <script>
+
   export default {
     data(){
       return{
         isCollapse:false
       }
+    },
+    computed:{
+
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -64,7 +83,7 @@
       },
       logout(){
         //清除登录状态，即保存在localstoreage中的token
-        localStorage.removeItem('mytoke')
+        localStorage.removeItem('mytoken')
         //跳转到登录页面
         this.$router.push({name:'Login'})
       }
